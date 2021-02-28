@@ -1,0 +1,23 @@
+{
+  "name": "neoh-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "license": "BSD-3-Clause",
+  "private": true,
+  "scripts": {
+    "build": "d2-app-scripts build",
+    "start": "d2-app-scripts start",
+    "test": "d2-app-scripts test",
+    "deploy": "d2-app-scripts deploy"
+  },
+  "devDependencies": {
+    "@dhis2/cli-app-scripts": "^5.5.2"
+  },
+  "dependencies": {
+    "@dhis2/app-runtime": "^2.7.0",
+    "@dhis2/prop-types": "^2.0.3",
+    "@dhis2/ui": "^6.4.1",
+    "react-datepicker": "^3.6.0",
+    "react-router-dom": "^5.2.0"
+  }
+}
