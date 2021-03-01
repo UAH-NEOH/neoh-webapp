@@ -26,12 +26,8 @@ const org_boundary = {"organisationUnits":[{"level":2,"name":"Bo","id":"O6uvpzGd
 
 const OrgQuery = {
     organisationUnits: {
-        resource: 'organisationUnits.json',
+        resource: 'datastore',
         params: {
-            paging: false,
-            level: 2,
-            fields: 'id,name,geometry,parent,level'
-
 
         },
     },
@@ -57,8 +53,11 @@ const levQuery = {
 }
 
 
-const alertValues = values => {
 
+
+
+const alertValues = (values, r_id, setR_id) => {
+    console.log(values)
     // console.log(JSON.stringify(org_boundary.organisationUnits[0]))
     const add_data = {
         data_element_id: '',
@@ -109,12 +108,19 @@ const alertValues = values => {
         body: JSON.stringify(final)
     }).then(res=>res.text())
         .then(res => {
-                alert('Submitted the request to server');
+                // alert('Submitted the request to server');
                 console.log(res);
+
+                var add = JSON.parse(res);
+                console.log(add.request_id);
+                console.log('chk');
+                setR_id([add.request_id])
+            console.log('hi' + r_id);
             }
             )
 
 }
+
 
 const { Field } = ReactFinalForm
 
@@ -122,12 +128,13 @@ const { Field } = ReactFinalForm
 export const DataIngest = () => {
     const [end_date, setEDate] = useState('')
     const [start_date, setSDate] = useState('')
+    const [request_id, setRequest_id] = useState('')
 
 return(
     <div style={{display: "flex", justifyContent: "center", alignContent: "center"}}>
         <Card className={styles.card} dataTest="dhis2-uicore-card">
             <div>
-                <ReactFinalForm.Form onSubmit={alertValues}>
+                <ReactFinalForm.Form onSubmit={(d) => alertValues(d,request_id, setRequest_id)}>
                     {({handleSubmit}) => (
                         <form onSubmit={handleSubmit}>
                             <div className={styles.row}>
