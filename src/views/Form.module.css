@@ -15,6 +15,9 @@
     padding: 30px;
 
 }
+.cardLay{
+    padding: 30px;
+}
 
 .surname {
     flex-grow: 1;
