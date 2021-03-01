@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import {useTable, usePagination} from 'react-table';
 import styled, { css } from 'styled-components'
 import { Card } from '@dhis2/ui'
@@ -132,63 +132,22 @@ function Table({columns, data}) {
     )
 }
 
+
+
+
+
 export const Status = () =>{
-    const data = [
-        {
-            name: 'Leanne Graham',
-            email: 'Sincere@april.biz',
-            age: 28,
-            status: 'Active'
-        },
-        {
-            name: 'Ervin Howell',
-            email: 'Shanna@melissa.tv',
-            age: 35,
-            status: 'Active'
-        },
-        {
-            name: 'Clementine Bauch',
-            email: 'Nathan@yesenia.net',
-            age: 33,
-            status: 'Inactive'
-        },
-        {
-            name: 'Patricia Lebsack',
-            email: 'Julianne@kory.org',
-            age: 25,
-            status: 'Active'
-        },
-        {
-            name: 'Kamren',
-            email: 'Hettinger@annie.ca',
-            age: 42,
-            status: 'Active'
-        },
-        {
-            name: 'Dennis Schulist',
-            email: 'Dach@jasper.info',
-            age: 34,
-            status: 'Inactive'
-        },
-        {
-            name: 'Kurtis Weissnat',
-            email: 'Hoeger@billy.biz',
-            age: 44,
-            status: 'Active'
-        },
-        {
-            name: 'Maxime_Nienow',
-            email: 'Sherwood@rosamond.me',
-            age: 26,
-            status: 'Active'
-        },
-        {
-            name: 'Glenna Reichert',
-            email: 'McDermott@dana.io',
-            age: 30,
-            status: 'Inactive'
-        },
-    ]
+    const [loadingData, setLoadingData] = useState(true);
+    const [tableDat, setTableDat] = useState('')
+    let data = []
+    let useData = []
+    // {
+    //     dataset: '',
+    //         type: '',
+    //     status: '',
+    //     message: ,
+    //     creation_time: ''
+    // }
     const columns = [
         {
             Header: 'Dataset',
@@ -210,29 +169,47 @@ export const Status = () =>{
             accessor: 'view_publish'
         }
     ]
-
-    const AWSCloudUrlStatus = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_status';
-    const stat ={
-        "request_id": [
-            "LB0hCRSBjn",
-            "PhREyN8em5"]}
-    // console.log(JSON.stringify(stat))
-    fetch(AWSCloudUrlStatus, {
-        method: 'post',
-        headers: {
-            'Accept':  '*/*',
-            'Content-Type': 'text/plain'
-        },
-        mode: 'cors',
-        body: JSON.stringify(stat)
-    }).then(res=>res.text())
-        .then(res => {
-                // alert('Submitted the request to server');
-                // console.log(res);
-                var add = JSON.parse(res);
-                console.log(add);
+    useEffect(() => {
+        async function getRow() {
+            let data = []
+            const AWSCloudUrlStatus = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_status';
+            const stat = {
+                "request_id": [
+                    "LB0hCRSBjn",
+                    "PhREyN8em5"]
             }
-        )
+            // console.log(JSON.stringify(stat))
+            const response = await fetch(AWSCloudUrlStatus, {
+                method: 'post',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'text/plain'
+                },
+                mode: 'cors',
+                body: JSON.stringify(stat)
+            }).then(res => res.text())
+                .then(res => {
+                        // alert('Submitted the request to server');
+                        // console.log(res);
+                        var addElements = JSON.parse(res);
+                        // console.log(addElements);
+                        //
+                        // data = [...addElements]
+                        // console.log(data)
+                        setTableDat(addElements)
+                        setLoadingData(false);
+                        // setTableDat( data => [data, addElements])
+                        // console.log(Object.keys(data).map(key => console.log(key)))
+                    }
+                )
+
+        }
+        if (loadingData) {
+
+            getRow();
+        }
+    }, []);
+
 
     const AWSCloudUrlResult = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_result';
     const result ={"request_id": "LB0hCRSBjn"}
@@ -249,20 +226,25 @@ export const Status = () =>{
         .then(res => {
                 // alert('Submitted the request to server');
                 // console.log(res);
-                var add = JSON.parse(res);
+                const add = JSON.parse(res);
                 console.log(add);
             }
         )
 
     return(
         <div>
+            {/* here you check if the state is loading otherwise if you wioll not call that you will get a blank page because the data is an empty array at the moment of mounting */}
+            {loadingData ? (
+                <p>Loading Please wait...</p>
+            ) : (
             <Card className={styles.cardLay} dataTest="dhis2-uicore-card">
                 <Styles>
                     <Table
-                        data={data}
+                        data={tableDat}
                         columns={columns}
                     />
                 </Styles>
             </Card>
+            )}
         </div>
 )}
