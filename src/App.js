@@ -41,7 +41,7 @@ const MyApp = () => (<BrowserRouter
                     // when "/" is the current url
                     exact
                     path="/"
-                    component={Status}
+                    component={DataIngest}
                 />
 
                 <Route
