@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {useTable, usePagination} from 'react-table';
 import styled, { css } from 'styled-components'
 import { Card } from '@dhis2/ui'
+import store from '../state/store'
+import * as actions from '../state/action'
 import styles from "./Form.module.css";
 
 const Styles = styled.div `
@@ -75,9 +77,11 @@ function Table({columns, data}) {
                 return (
                     <tr {...row.getRowProps()}>
                         {row.cells.map(cell => {
-                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            return( <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            )
                         })}
                     </tr>
+
                 )
             })}
             </tbody>
@@ -127,27 +131,25 @@ function Table({columns, data}) {
                 </option>
             ))}
         </select>
+        {' '}
+        <button onClick={clearAll}>Clear All</button>
     </div>
         </>
-    )
+
+)}
+
+
+function clearAll() {
+    store.dispatch(actions.requestClear());
+
 }
 
 
-
-
-
 export const Status = () =>{
+
     const [loadingData, setLoadingData] = useState(true);
     const [tableDat, setTableDat] = useState('')
-    let data = []
-    let useData = []
-    // {
-    //     dataset: '',
-    //         type: '',
-    //     status: '',
-    //     message: ,
-    //     creation_time: ''
-    // }
+
     const columns = [
         {
             Header: 'Dataset',
@@ -165,77 +167,129 @@ export const Status = () =>{
             Header: 'Date created',
             accessor: 'creation_time'
         }, {
-            Header: 'View/Publish',
-            accessor: 'view_publish'
+            Header: 'Publish',
+            accessor: 'publish',
+            Cell: ({ cell }) => (
+                <button value={cell.row.values.creation_time} onClick={getResults}>
+                    Publish
+                </button>
+
+
+            )
         }
     ]
+
     useEffect(() => {
         async function getRow() {
-            let data = []
-            const AWSCloudUrlStatus = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_status';
-            const stat = {
-                "request_id": [
-                    "LB0hCRSBjn",
-                    "PhREyN8em5"]
+            let rData = {"request_id": []}
+            let updatedRequest = []
+
+            updatedRequest = store.getState()
+            for (let obj of updatedRequest.reducer) {
+
+                rData['request_id'].push(obj.requestId)
             }
-            // console.log(JSON.stringify(stat))
-            const response = await fetch(AWSCloudUrlStatus, {
+            const AWSCloudUrlStatus = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_status';
+           await fetch(AWSCloudUrlStatus, {
                 method: 'post',
                 headers: {
                     'Accept': '*/*',
                     'Content-Type': 'text/plain'
                 },
                 mode: 'cors',
-                body: JSON.stringify(stat)
+                body: JSON.stringify(rData)
             }).then(res => res.text())
                 .then(res => {
                         // alert('Submitted the request to server');
-                        // console.log(res);
-                        var addElements = JSON.parse(res);
-                        // console.log(addElements);
-                        //
-                        // data = [...addElements]
-                        // console.log(data)
+                        //  console.log(res);
+                        let addElements = JSON.parse(res);
+                        let count = 0;
+
+                        for (const obj of addElements){
+                            if(obj.status==='success'){
+                                count = count + 1;
+                            }
+                            if (count === Object.keys(addElements).length){
+                                for (let i = 1; i < 999; i++)
+                                    clearInterval(i);
+                            }
+                        }
                         setTableDat(addElements)
                         setLoadingData(false);
-                        // setTableDat( data => [data, addElements])
-                        // console.log(Object.keys(data).map(key => console.log(key)))
+
                     }
                 )
 
         }
+
         if (loadingData) {
 
-            getRow();
+        let intervalId = setInterval(function() {
+                getRow();
+
+            }, 3000);
+
         }
     }, []);
 
+    function getResults(event) {
 
-    const AWSCloudUrlResult = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_result';
-    const result ={"request_id": "LB0hCRSBjn"}
-    // console.log(JSON.stringify(stat))
-    fetch(AWSCloudUrlResult, {
-        method: 'post',
-        headers: {
-            'Accept':  '*/*',
-            'Content-Type': 'text/plain'
-        },
-        mode: 'cors',
-        body: JSON.stringify(result)
-    }).then(res=>res.text())
-        .then(res => {
-                // alert('Submitted the request to server');
-                // console.log(res);
-                const add = JSON.parse(res);
-                console.log(add);
-            }
-        )
+        // console.log(event.target.value)
+        const identifier = event.target.value
+        const itm = tableDat.find(d => d.creation_time === identifier)
+        console.log(itm.request_id)
+        const AWSCloudUrlResult = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_result';
+        const result ={"request_id": itm.request_id.toString()}
+        // console.log(JSON.stringify(stat))
+        fetch(AWSCloudUrlResult, {
+            method: 'post',
+            headers: {
+                'Accept':  '*/*',
+                'Content-Type': 'text/plain'
+            },
+            mode: 'cors',
+            body: JSON.stringify(result)
+        }).then(res=>res.text())
+            .then(res => {
+                    // alert('Submitted the request to server');
+                    // console.log(res);
+                    const add = JSON.parse(res);
+                    console.log(add.result);
+                    const dhisURL = 'https://neoh-dhis2.itsc.uah.edu/api/dataValueSets'
+
+                    fetch(dhisURL, {
+                        method: 'post',
+                        headers: {
+                            'Accept':  '*/*',
+                            'Content-Type': 'application/json'
+                        },
+                        mode: 'cors',
+                        body: JSON.stringify(add.result)
+                    }).then(res=>res.text())
+                        .then(res => {
+                                // alert('Submitted the request to server');
+                                // console.log(res);
+                                const add = JSON.parse(res);
+                                alert(add.status +': '+ add.description+
+                                    '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted)
+                                console.log(add);
+                                console.log(add.status);
+                                console.log(add.description);
+                            }
+                        )
+
+
+                }
+            )
+
+    }
+
 
     return(
         <div>
             {/* here you check if the state is loading otherwise if you wioll not call that you will get a blank page because the data is an empty array at the moment of mounting */}
             {loadingData ? (
-                <p>Loading Please wait...</p>
+                <p>Loading ...</p>
             ) : (
             <Card className={styles.cardLay} dataTest="dhis2-uicore-card">
                 <Styles>
@@ -244,6 +298,8 @@ export const Status = () =>{
                         columns={columns}
                     />
                 </Styles>
+
+
             </Card>
             )}
         </div>

@@ -7,6 +7,9 @@
     min-height: 100vh;
     padding-top: 20px;
 }
+.center {
+    width: 600px;
+}
 
 .right {
     flex-grow: 1;

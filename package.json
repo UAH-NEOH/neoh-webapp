@@ -18,8 +18,10 @@
     "@dhis2/prop-types": "^2.0.3",
     "@dhis2/ui": "^6.4.1",
     "react-datepicker": "^3.6.0",
+    "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-table": "^7.6.3",
+    "redux": "^4.0.5",
     "styled-components": "^5.2.1"
   }
 }

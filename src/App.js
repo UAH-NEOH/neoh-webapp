@@ -4,7 +4,7 @@ import  { Status, Settings, NoMatch, Form}  from './views'
 import {DataIngest} from './views'
 import { Navigation } from './navigation'
 import styles from './App.module.css'
-import { CenteredContent } from '@dhis2/ui'
+
 
 
 const MyApp = () => (<BrowserRouter
