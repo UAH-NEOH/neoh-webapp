@@ -5,6 +5,17 @@ import { Card } from '@dhis2/ui'
 import store from '../state/store'
 import * as actions from '../state/action'
 import styles from "./Form.module.css";
+import {useDataMutation} from "@dhis2/app-runtime";
+
+
+const mutation = {
+    resource: 'dataValueSets',
+    type: 'create',
+    data: ({ val }) => ({
+        dataValues: val
+    }),
+}
+
 
 const Styles = styled.div `
   table {
@@ -150,6 +161,21 @@ export const Status = () =>{
     const [loadingData, setLoadingData] = useState(true);
     const [tableDat, setTableDat] = useState('')
 
+    const [mutate, { loadings }] = useDataMutation(mutation, {
+        onComplete: response => {
+            console.log(JSON.stringify(response))
+                        const add = response;
+                        alert(add.status +': '+ add.description+
+                            '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted)
+                        console.log(add);
+                        console.log(add.status);
+                        console.log(add.description);
+
+
+        },
+        onError: error => {console.log(JSON.stringify(error))}
+    })
+
     const columns = [
         {
             Header: 'Dataset',
@@ -254,29 +280,37 @@ export const Status = () =>{
                     // alert('Submitted the request to server');
                     // console.log(res);
                     const add = JSON.parse(res);
-                    console.log(add.result);
-                    const dhisURL = 'https://neoh-dhis2.itsc.uah.edu/api/dataValueSets'
+                    console.log(JSON.stringify(add.result.dataValues));
 
-                    fetch(dhisURL, {
-                        method: 'post',
-                        headers: {
-                            'Accept':  '*/*',
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors',
-                        body: JSON.stringify(add.result)
-                    }).then(res=>res.text())
-                        .then(res => {
-                                // alert('Submitted the request to server');
-                                // console.log(res);
-                                const add = JSON.parse(res);
-                                alert(add.status +': '+ add.description+
-                                    '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted)
-                                console.log(add);
-                                console.log(add.status);
-                                console.log(add.description);
-                            }
-                        )
+
+                const resp = async () => {
+                    await  mutate( {val: add.result.dataValues})
+                }
+                // console.log(res)
+                resp().then(r => {})
+
+                    // const dhisURL = 'https://neoh-dhis2.itsc.uah.edu/api/dataValueSets'
+                    //
+                    // fetch(dhisURL, {
+                    //     method: 'post',
+                    //     headers: {
+                    //         'Accept':  '*/*',
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     mode: 'cors',
+                    //     body: JSON.stringify(add.result)
+                    // }).then(res=>res.text())
+                    //     .then(res => {
+                    //             // alert('Submitted the request to server');
+                    //             // console.log(res);
+                    //             const add = JSON.parse(res);
+                    //             alert(add.status +': '+ add.description+
+                    //                 '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted)
+                    //             console.log(add);
+                    //             console.log(add.status);
+                    //             console.log(add.description);
+                    //         }
+                    //     )
 
 
                 }
