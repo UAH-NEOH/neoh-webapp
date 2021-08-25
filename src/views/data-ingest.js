@@ -4,7 +4,8 @@ import { AlertStack, AlertBar } from '@dhis2/ui'
 import { Input } from '@dhis2/ui'
 import {useDataMutation, useDataQuery} from '@dhis2/app-runtime'
 import { useHistory } from "react-router-dom";
-
+import { CircularLoader } from '@dhis2/ui'
+import { ComponentCover, CenteredContent } from '@dhis2/ui'
 import { browserHistory } from 'react-router';
 import { requestQuery } from './dataQueryRequest'
 import {
@@ -48,10 +49,28 @@ export const DataIngest = () => {
             },
         },
     }
+    const readUserDataStore = {
+        result: {
+            resource: 'userDataStore/NEOH-dhis2/currentUserData'
+        }
+    }
+    const {dataStorevalloading, dataStorevalerror, dataStoreval, dataStorevalrefetch} = useDataQuery(readUserDataStore)
+    console.log(dataStoreval)
+
     const {loading, error, data, refetch} = useDataQuery(levQuery, {variables:{
             orgLevel: org_level
         }})
-    // console.log(data)
+    console.log(data);
+
+    const orgQuery = {
+        resul: {
+            resource: 'filledOrganisationUnitLevels',
+        },
+    }
+
+    const {loadings, errors, datas, refe} = useDataQuery(orgQuery)
+    console.log(JSON.stringify(datas));
+
 
 
     const alertValues = (values) => {
@@ -74,6 +93,7 @@ export const DataIngest = () => {
 
 
 
+
         // console.log(JSON.stringify(org_boundary.organisationUnits[0]))
         const add_data = {
             data_element_id: '',
@@ -91,7 +111,7 @@ export const DataIngest = () => {
         // oYJ51K7AJvQ
         // h7oZiAMGMpA John
         if (final.dataset === 'precipitation') {
-            final.data_element_id = 'oYJ51K7AJvQ';
+            final.data_element_id = 'F678HGZ8ASt';
             final.product = 'GPM_3IMERGDF_06';
             final.var_name = 'precipitationCal';
 
@@ -101,7 +121,7 @@ export const DataIngest = () => {
         if (final.dataset === 'temperature') {
             final.product = 'MOD11B2';
             final.var_name = 'LST_Day_6km';
-            final.data_element_id = 'wDDqZnuOhwh';
+            final.data_element_id = 'CwmcawqXJ9m';
 
         }
         // bUBLqMJTkp4
@@ -111,7 +131,7 @@ export const DataIngest = () => {
             final.var_name = '_1_km_16_days_NDVI';
             final.x_start_stride_stop = '[0:5:1199]';
             final.y_start_stride_stop = '[0:5:1199]';
-            final.data_element_id = 'yWETNJ3hrrp';
+            final.data_element_id = 'ichUNkLby8Q';
 
         }
         refetch({orgLevel: org_level}).then(response => {
@@ -125,7 +145,7 @@ export const DataIngest = () => {
             const formattedValuesString = JSON.stringify(values, null, 2)
             // alert(formattedValuesString)
             const AWSCloudUrl = 'https://9t06h5m4bf.execute-api.us-east-1.amazonaws.com/default/start_cloud_workflow';
-
+            // content = <CircularLoader large className="loader"/>
             fetch(AWSCloudUrl, {
                 method: 'post',
                 headers: {
@@ -136,6 +156,7 @@ export const DataIngest = () => {
                 body: JSON.stringify(final)
             }).then(res=>res.text())
                 .then(res => {
+                        // content = <></>
                         alert('Submitted the request to server');
                         console.log(res);
 
@@ -152,7 +173,8 @@ export const DataIngest = () => {
 
         // store.dispatch(actions.requestAdded("S8XNEZkB38"))
     }
-return(
+
+    return(
 
     <div style={{display: "flex", justifyContent: "center", alignContent: "center"}}>
         <Card className={styles.card} dataTest="dhis2-uicore-card">
@@ -188,8 +210,7 @@ return(
                                     options={[
                                         {label: 'National', value: 'National'},
                                         {label: 'District', value: 'District'},
-                                        {label: 'Chiefdom', value: 'Chiefdom'},
-                                        {label: 'Facility', value: 'Facility'},
+                                        {label: 'Chiefdom', value: 'Chiefdom'}
                                     ]}
                                     onChange={(e)=> setOrgz_unit(e.target.value)}
                                 />
@@ -237,21 +258,30 @@ return(
 
                             </div>
                             <div>
+
                                 <br/>
                             </div>
 
                             <div className={styles.row}>
                             </div>
+
                             <div className={styles.button}>
+
                                 <Button primary type="submit">
                                     Submit
                                 </Button>
+
                             </div>
+
                         </form>
                     )}
-                </ReactFinalForm.Form>
-            </div>
 
+                </ReactFinalForm.Form>
+
+            </div>
+            {/*<CenteredContent >*/}
+            {/*    {content}*/}
+            {/*</CenteredContent>*/}
         </Card>
 
     </div>

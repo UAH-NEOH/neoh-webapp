@@ -43,6 +43,8 @@ const Styles = styled.div `
 `
 
 
+
+
 function Table({columns, data}) {
     const {
         getTableProps,
@@ -143,17 +145,18 @@ function Table({columns, data}) {
             ))}
         </select>
         {' '}
-        <button onClick={clearAll}>Clear All</button>
+        {/*<button onClick={clearAll}>Clear All</button>*/}
     </div>
         </>
 
 )}
 
 
-function clearAll() {
-    store.dispatch(actions.requestClear());
+// function clearAll() {
+//     store.dispatch(actions.requestClear());
+//
+// }
 
-}
 
 
 export const Status = () =>{
@@ -163,13 +166,13 @@ export const Status = () =>{
 
     const [mutate, { loadings }] = useDataMutation(mutation, {
         onComplete: response => {
-            console.log(JSON.stringify(response))
+            // console.log(JSON.stringify(response))
                         const add = response;
                         alert(add.status +': '+ add.description+
                             '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted)
-                        console.log(add);
-                        console.log(add.status);
-                        console.log(add.description);
+                        // console.log(add);
+                        // console.log(add.status);
+                        // console.log(add.description);
 
 
         },
@@ -263,7 +266,10 @@ export const Status = () =>{
         // console.log(event.target.value)
         const identifier = event.target.value
         const itm = tableDat.find(d => d.creation_time === identifier)
+        console.log(itm)
         console.log(itm.request_id)
+        if(itm.status.toLowerCase() === "success"){
+
         const AWSCloudUrlResult = 'https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/get_result';
         const result ={"request_id": itm.request_id.toString()}
         // console.log(JSON.stringify(stat))
@@ -315,6 +321,9 @@ export const Status = () =>{
 
                 }
             )
+        }else {
+            alert('Not ready to Publish. Please wait till the process is successful')
+        }
 
     }
 
@@ -328,6 +337,7 @@ export const Status = () =>{
             <Card className={styles.cardLay} dataTest="dhis2-uicore-card">
                 <Styles>
                     <Table
+                        defaultPageSize={15}
                         data={tableDat}
                         columns={columns}
                     />
