@@ -19,15 +19,25 @@ import store from '../state/store'
 import * as actions from '../state/action'
 import {DataQuery} from '@dhis2/app-runtime'
 
+import GetDataElementId from './getDataElementId'
 const {Field} = ReactFinalForm
 
 
 export const DataIngest = () => {
-    let showSpinner = false;
+  let showSpinner = false
+    let pp;
+    // const [showSpinner, setShowSpinner] = useState(false)
     const [end_date, setEDate] = useState('')
     const [start_date, setSDate] = useState('')
     const [request_id, setRequest_id] = useState('')
     const [orgz_unit, setOrgz_unit] = useState('')
+
+    const [getDataeleId, setgetDataeleId] = useState('')
+    const [precipitationId, setPrecipitationId] = useState('')
+    const [temperatureId, setTemperatureId] = useState('')
+    const [vegetationId, setVegetationId] = useState('')
+    const [dhis2Version, setDhis2Version] = useState('')
+
     let request_id_collection = []
     let org_level = 2
     // requestQuery(org_level);
@@ -44,29 +54,23 @@ export const DataIngest = () => {
             },
         },
     }
-    const readUserDataStore = {
-        result: {
-            resource: 'userDataStore/NEOH-dhis2/currentUserData'
-        }
+
+    const saveDataElementId = (enteredElementId) => {
+          if(enteredElementId){
+                  setPrecipitationId(enteredElementId.result.value.precipitationDataElementId)
+                  setTemperatureId(enteredElementId.result.value.temperatureDataElementId)
+                  setVegetationId(enteredElementId.result.value.vegetationDataElementId)
+                  setDhis2Version(enteredElementId.result.value.dhis_dist_version)
+
+          }
     }
-    const {dataStorevalloading, dataStorevalerror, dataStoreval, dataStorevalrefetch} = useDataQuery(readUserDataStore)
-    console.log(dataStoreval)
+    console.log(precipitationId, temperatureId, vegetationId, dhis2Version)
 
-    const {loading, error, data, refetch} = useDataQuery(levQuery, {
-        variables: {
-            orgLevel: org_level
-        }
-    })
-    console.log(data);
-
-    const orgQuery = {
-        resul: {
-            resource: 'filledOrganisationUnitLevels',
-        },
-    }
-
-    const {loadings, errors, datas, refe} = useDataQuery(orgQuery)
-    console.log(JSON.stringify(datas));
+    // const {loading, error, data, refetch} = useDataQuery(levQuery, {
+    //     variables: {
+    //         orgLevel: org_level
+    //     }
+    // })
 
 
     const alertValues = (values) => {
@@ -83,11 +87,12 @@ export const DataIngest = () => {
 
         // console.log(data)
         // console.log(requestQuery(org_level));
-        console.log(values.org_unit === 'District')
-        console.log(values['org_unit'] === 'District')
+        // console.log(values.org_unit === 'District')
+        // console.log(values['org_unit'] === 'District')
 
 
         // console.log(JSON.stringify(org_boundary.organisationUnits[0]))
+
         const add_data = {
             data_element_id: '',
             stat_type: 'mean',
@@ -96,7 +101,7 @@ export const DataIngest = () => {
             var_name: '',
             x_start_stride_stop: '',
             y_start_stride_stop: '',
-            dhis_dist_version: 'sierra_leone_1'
+            dhis_dist_version: dhis2Version
 
         }
         var final = Object.assign({}, values, add_data);
@@ -104,7 +109,7 @@ export const DataIngest = () => {
         // oYJ51K7AJvQ
         // h7oZiAMGMpA John
         if (final.dataset === 'precipitation') {
-            final.data_element_id = 'F678HGZ8ASt';
+            final.data_element_id = precipitationId;
             final.product = 'GPM_3IMERGDF_06';
             final.var_name = 'precipitationCal';
 
@@ -114,7 +119,7 @@ export const DataIngest = () => {
         if (final.dataset === 'temperature') {
             final.product = 'MOD11B2';
             final.var_name = 'LST_Day_6km';
-            final.data_element_id = 'CwmcawqXJ9m';
+            final.data_element_id = temperatureId;
 
         }
         // bUBLqMJTkp4
@@ -124,22 +129,21 @@ export const DataIngest = () => {
             final.var_name = '_1_km_16_days_NDVI';
             final.x_start_stride_stop = '[0:5:1199]';
             final.y_start_stride_stop = '[0:5:1199]';
-            final.data_element_id = 'ichUNkLby8Q';
+            final.data_element_id = vegetationId;
 
         }
-        refetch({orgLevel: org_level}).then(response => {
-            console.log(response);
 
-            let buff = response.results.organisationUnits;
-            final.boundaries = buff
-            console.log(buff);
-            console.log();
+            // console.log(response);
+            //
+            // let buff = response.results.organisationUnits;
+            // final.boundaries = buff
+            console.log(final);
             console.log(JSON.stringify(final))
             const formattedValuesString = JSON.stringify(values, null, 2)
             // alert(formattedValuesString)
             const AWSCloudUrl = 'https://9t06h5m4bf.execute-api.us-east-1.amazonaws.com/default/start_cloud_workflow';
             // content = <CircularLoader large className="loader"/>
-            showSpinner = true;
+            // setShowSpinner(true);
             fetch(AWSCloudUrl, {
                 method: 'post',
                 headers: {
@@ -150,7 +154,7 @@ export const DataIngest = () => {
                 body: JSON.stringify(final)
             }).then(res => res.text())
                 .then(res => {
-                        showSpinner = false;
+                    // setShowSpinner(false);
                         // content = <></>
                         alert('Submitted the request to server');
                         console.log(res);
@@ -163,7 +167,7 @@ export const DataIngest = () => {
                 )
 
 
-        })
+
 
         // store.dispatch(actions.requestAdded("S8XNEZkB38"))
     }
@@ -280,6 +284,7 @@ export const DataIngest = () => {
                 </Box>
 
             </CenteredContent>
+            <GetDataElementId getInputData={saveDataElementId}/>
         </>
     )
 }

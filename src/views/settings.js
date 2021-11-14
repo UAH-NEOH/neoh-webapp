@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card } from '@dhis2/ui'
 import styles from "./Form.module.css";
 import {useDataMutation, useDataQuery, useAlert} from '@dhis2/app-runtime'
-import { InputField, Button,  } from '@dhis2/ui'
+import { InputField, Button  } from '@dhis2/ui'
 
 
 const readUserDataStore = {
@@ -108,7 +108,7 @@ export const Settings = () => {
 
 
     const {loading, error, data, refetch} = useDataQuery(readUserDataStore)
-
+    console.log(data)
     const { show } = useAlert('Updated the Data store')
 
     return(
@@ -128,8 +128,8 @@ export const Settings = () => {
                 <Button onClick={updateUserDataStoredisplay} primary>Show</Button>
                 &nbsp; &nbsp; &nbsp;
                 <Button onClick={checkUserStore}  primary>Update</Button>
-                    {/*&nbsp; &nbsp; &nbsp;*/}
-                    {/*<Button onClick={removeUserDataStoreButton}  primary>Remove</Button>*/}
+                    &nbsp; &nbsp; &nbsp;
+                    <Button onClick={removeUserDataStoreButton}  primary>Remove</Button>
 
                 </div>
 

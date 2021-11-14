@@ -1,6 +1,6 @@
 const config = {
-    name: 'neoh-app',
-    title: 'NEOH App',
+    name: 'neoh',
+    title: 'NEOH',
     description: 'A webapp to ingest NASA dataset',
     type: 'app',
 
