@@ -20,19 +20,21 @@ import * as actions from '../state/action'
 import {DataQuery} from '@dhis2/app-runtime'
 
 import GetDataElementId from './getDataElementId'
+import GetFilledOrgUnits from "./getFilledOrgUnits";
 const {Field} = ReactFinalForm
 
 
 export const DataIngest = () => {
-  let showSpinner = false
-    let pp;
-    // const [showSpinner, setShowSpinner] = useState(false)
+  // let showSpinner = false
+
+    const [showSpinner, setShowSpinner] = useState(false)
     const [end_date, setEDate] = useState('')
     const [start_date, setSDate] = useState('')
     const [request_id, setRequest_id] = useState('')
     const [orgz_unit, setOrgz_unit] = useState('')
 
-    const [getDataeleId, setgetDataeleId] = useState('')
+    const [getOrgid, setgetOrgid] = useState([])
+
     const [precipitationId, setPrecipitationId] = useState('')
     const [temperatureId, setTemperatureId] = useState('')
     const [vegetationId, setVegetationId] = useState('')
@@ -64,13 +66,33 @@ export const DataIngest = () => {
 
           }
     }
-    console.log(precipitationId, temperatureId, vegetationId, dhis2Version)
 
-    // const {loading, error, data, refetch} = useDataQuery(levQuery, {
-    //     variables: {
-    //         orgLevel: org_level
-    //     }
-    // })
+    // console.log(precipitationId, temperatureId, vegetationId, dhis2Version)
+
+    const saveFilledOrgUnits = (enteredFilledOrgUnits) => {
+        let dataobj = [];
+        // TODO: Cleanup
+        // if(enteredFilledOrgUnits){
+        //     // console.log(enteredFilledOrgUnits.result);
+        //     // const lvl = enteredFilledOrgUnits.result
+        //     // dataobj = Object.entries(enteredFilledOrgUnits.result).map( ([key, value]) => ({ [key]: value }));
+        //
+        //      enteredFilledOrgUnits.result.map(obj => {
+        //
+        //         // console.log(obj.name);
+        //         // console.log(obj.level);
+        //         //  setgetOrgid((oldVal)=> {...oldVal,{obj.level} })
+        //          dataobj[obj.name]= obj.level
+        //     })
+        //     setgetOrgid(dataobj);
+        //     // console.log(dataobj);
+        // }
+    }
+    const {loading, error, data, refetch} = useDataQuery(levQuery, {
+        variables: {
+            orgLevel: org_level
+        }
+    })
 
 
     const alertValues = (values) => {
@@ -132,18 +154,18 @@ export const DataIngest = () => {
             final.data_element_id = vegetationId;
 
         }
+            refetch({orgLevel: org_level}).then(response => {
+            console.log(response);
 
-            // console.log(response);
-            //
-            // let buff = response.results.organisationUnits;
-            // final.boundaries = buff
+            let buff = response.results.organisationUnits;
+            final.boundaries = buff
             console.log(final);
             console.log(JSON.stringify(final))
             const formattedValuesString = JSON.stringify(values, null, 2)
             // alert(formattedValuesString)
             const AWSCloudUrl = 'https://9t06h5m4bf.execute-api.us-east-1.amazonaws.com/default/start_cloud_workflow';
             // content = <CircularLoader large className="loader"/>
-            // setShowSpinner(true);
+            setShowSpinner(true);
             fetch(AWSCloudUrl, {
                 method: 'post',
                 headers: {
@@ -154,7 +176,7 @@ export const DataIngest = () => {
                 body: JSON.stringify(final)
             }).then(res => res.text())
                 .then(res => {
-                    // setShowSpinner(false);
+                    setShowSpinner(false);
                         // content = <></>
                         alert('Submitted the request to server');
                         console.log(res);
@@ -171,15 +193,13 @@ export const DataIngest = () => {
 
         // store.dispatch(actions.requestAdded("S8XNEZkB38"))
     }
-
+            )}
     return (
         <>
             <CenteredContent position="top">
                 <Box>
                     <Card className={styles.cardLay}>
-                        {showSpinner?  <CenteredContent position="bottom">
-                            <CircularLoader large className={styles.spinner}/>
-                        </CenteredContent>: <></> }
+
                         <ReactFinalForm.Form onSubmit={alertValues}>
                             {({handleSubmit}) => (
                                 <form onSubmit={handleSubmit}>
@@ -273,7 +293,9 @@ export const DataIngest = () => {
                                         </Button>
 
                                     </div>
-
+                                    {showSpinner?  <CenteredContent position="bottom">
+                                        <CircularLoader large className={styles.spinner}/>
+                                    </CenteredContent>: <></> }
                                 </form>
                             )}
 
@@ -285,6 +307,7 @@ export const DataIngest = () => {
 
             </CenteredContent>
             <GetDataElementId getInputData={saveDataElementId}/>
+            <GetFilledOrgUnits getFilledOrg ={saveFilledOrgUnits}/>
         </>
     )
 }

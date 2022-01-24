@@ -26,10 +26,6 @@ const levQuery = {
      })
      console.log(data)
 
-     // refetch().then(r=> {console.log(r.result.value);
-     //     // props.getInputData(r.result.value);
-     // })
-
     // props.getInputData(data);
     return (<> </>);
 }

@@ -12,13 +12,13 @@ const orgQuery = {
 
 
      const {loading, error, data, refetch} = useDataQuery(orgQuery)
-     console.log(data)
+     // console.log(data)
 
      // refetch().then(r=> {console.log(r.result.value);
      //     // props.getInputData(r.result.value);
      // })
 
-    // props.getInputData(data);
+    props.getFilledOrg(data);
     return (<> </>);
 }
 

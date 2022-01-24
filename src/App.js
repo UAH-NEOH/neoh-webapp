@@ -26,7 +26,7 @@ const MyApp = () => (<BrowserRouter
 
         <div className={styles.right}>
             <div style={{justifyContent: "center", alignContent: "center", display: "flex"}}>
-                <h2 >NASA Earthdata APP</h2>
+                <h2 >NASA Earthdata Importer APP</h2>
             </div>
 
 
