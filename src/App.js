@@ -1,9 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import  { Status, Settings, NoMatch, Form}  from './views'
+import  { Status, NStatus, Settings, NoMatch, Form}  from './views'
 import {DataIngest} from './views'
 import { Navigation } from './navigation'
 import styles from './App.module.css'
+import {Home} from "./pages";
 // https://neoh-dhis2.itsc.uah.edu
 
 
@@ -26,7 +27,7 @@ const MyApp = () => (<BrowserRouter
 
         <div className={styles.right}>
             <div style={{justifyContent: "center", alignContent: "center", display: "flex"}}>
-                <h2 >NASA Earthdata Importer APP</h2>
+                <h2 >Earth Observation Data Importer</h2>
             </div>
 
 
@@ -41,7 +42,8 @@ const MyApp = () => (<BrowserRouter
                     // when "/" is the current url
                     exact
                     path="/"
-                    component={DataIngest}
+                    // component={DataIngest}
+                    component={Home}
                 />
 
                 <Route
@@ -50,6 +52,13 @@ const MyApp = () => (<BrowserRouter
                     exact
                     path="/status"
                     component={Status}
+                />
+                <Route
+                    // FAQ route, will render "Form" component
+                    // when "/faq" is the current url
+                    exact
+                    path="/nstatus"
+                    component={NStatus}
                 />
                 <Route
                     // FAQ route, will render "Form" component

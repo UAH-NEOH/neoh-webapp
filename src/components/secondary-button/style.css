@@ -1,0 +1,29 @@
+.button_secondary {
+  background-color: mediumblue;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button_secondary:hover {
+  background-color: blue;
+  color: white;
+}
+
+.button_secondary_disabled {
+  background-color: #808080;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+}

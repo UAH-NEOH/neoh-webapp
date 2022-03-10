@@ -1,0 +1,25 @@
+.card_container {
+  background: #69c288;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card_content {
+  margin: 10px;
+  padding: 10px;
+  width: auto;
+}
+
+.card_heading {
+  font-size: 30px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+.card_body {
+  text-align: center;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 400;
+}

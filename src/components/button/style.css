@@ -1,0 +1,17 @@
+.button_primary {
+  background-color: mediumblue;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button_primary:hover {
+  background-color: blue;
+  color: white;
+}
