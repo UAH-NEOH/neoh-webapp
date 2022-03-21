@@ -31,7 +31,7 @@ tr {
 }
 
 table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #c5c5c5;
 }
 
 table tr:nth-child(odd) {

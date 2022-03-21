@@ -27,3 +27,33 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+.button_secondary_del {
+  background-color: red;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button_secondary_del:hover {
+  background-color: darkred;
+  color: white;
+}
+
+.button_secondary_del_disabled {
+  background-color: #808080;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+}

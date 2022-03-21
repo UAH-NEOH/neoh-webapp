@@ -61,12 +61,14 @@ const SecondaryTable = ({ columns, data }) => {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>
               Prev
             </button>
+              &nbsp;
             <button onClick={() => nextPage()} disabled={!canNextPage}>
               Next
             </button>
+              &nbsp;
             <div>
               Page{" "}
-              <em>
+             <br/> <em>
                 {pageIndex + 1} of {pageOptions.length}
               </em>
             </div>

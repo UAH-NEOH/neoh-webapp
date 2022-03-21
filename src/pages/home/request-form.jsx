@@ -112,6 +112,7 @@ const RequestForm = (props) => {
       {hasError && <p className="errormsg">{error}</p>}
       <SecondaryButton
         btnText="Create New Request"
+        Class="button_secondary"
         btnLink={handleFormSubmission}
         disable={props.disabled}
       />

@@ -27,9 +27,10 @@ const MyApp = () => (<BrowserRouter
 
         <div className={styles.right}>
             <div style={{justifyContent: "center", alignContent: "center", display: "flex"}}>
+                <img src="https://neoh-logo.s3.amazonaws.com/neoh-logo.png" width="70" height="70" />
                 <h2 >Earth Observation Data Importer</h2>
             </div>
-
+            <br/>
 
 
             <Switch

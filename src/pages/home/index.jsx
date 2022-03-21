@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
 import {
+  fetchResultData as fetchResultService,
   fetchStatusMessage as fetchStatusService,
   startCloudWorkflow as startCloudWorkflowService,
 } from "../../services/api";
@@ -11,6 +12,9 @@ import PrepareCloudWorkflowPayload from "./cloud-workflow";
 import { Results } from "../../pages";
 import Modal from "react-modal";
 import "./style.css";
+import {useAlert, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
+import {fetchOrgLevel, fetchDataElements} from "../../views/allQueryExec";
+
 
 const customStyles = {
   content: {
@@ -20,6 +24,33 @@ const customStyles = {
     right: "20%",
   },
 };
+const mutation = {
+  resource: 'dataValueSets',
+  type: 'create',
+  data: ({ val }) => ({
+    dataValues: val
+  }),
+}
+
+const orgQuery = {
+  result: {
+    resource: 'filledOrganisationUnitLevels',
+  },
+}
+
+const levQuery = {
+  result: {
+    resource: 'organisationUnits',
+    params: ({orgLevel}) => {
+      return {
+        fields: 'id, name, level, geometry, parent',
+        order: 'level',
+        paging: false,
+        level: orgLevel
+      }
+    },
+  },
+}
 
 const columns = [
   {
@@ -58,92 +89,92 @@ const initialRequestIdList = [
   // "FAMB8rfpne",
 ];
 
-const organizationUnits = [
-  {
-    name: "National",
-    created: "2011-12-24T12:24:22.935",
-    lastUpdated: "2015-08-09T12:58:05.003",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "National",
-    level: 1,
-    favorite: false,
-    id: "H1KlN4QIauv",
-    attributeValues: [],
-  },
-  {
-    name: "District",
-    created: "2011-12-24T12:24:22.935",
-    lastUpdated: "2015-08-09T12:58:04.997",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "District",
-    level: 2,
-    favorite: false,
-    id: "wjP19dkFeIk",
-    attributeValues: [],
-  },
-  {
-    name: "Chiefdom",
-    created: "2011-12-24T12:24:22.935",
-    lastUpdated: "2015-08-09T12:58:05.001",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "Chiefdom",
-    level: 3,
-    favorite: false,
-    id: "tTUf91fCytl",
-    attributeValues: [],
-  },
-  {
-    name: "Facility",
-    created: "2011-12-24T12:24:22.935",
-    lastUpdated: "2015-08-09T12:58:05.005",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "Facility",
-    level: 4,
-    favorite: false,
-    id: "m9lBJogzE95",
-    attributeValues: [],
-  },
-  {
-    name: "Level 5",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "Level 5",
-    level: 5,
-    favorite: false,
-    attributeValues: [],
-  },
-  {
-    name: "Level 6",
-    translations: [],
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
-    favorites: [],
-    displayName: "Level 6",
-    level: 6,
-    favorite: false,
-    attributeValues: [],
-  },
-];
+// const organizationUnits = [
+//   {
+//     name: "National",
+//     created: "2011-12-24T12:24:22.935",
+//     lastUpdated: "2015-08-09T12:58:05.003",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "National",
+//     level: 1,
+//     favorite: false,
+//     id: "H1KlN4QIauv",
+//     attributeValues: [],
+//   },
+//   {
+//     name: "District",
+//     created: "2011-12-24T12:24:22.935",
+//     lastUpdated: "2015-08-09T12:58:04.997",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "District",
+//     level: 2,
+//     favorite: false,
+//     id: "wjP19dkFeIk",
+//     attributeValues: [],
+//   },
+//   {
+//     name: "Chiefdom",
+//     created: "2011-12-24T12:24:22.935",
+//     lastUpdated: "2015-08-09T12:58:05.001",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "Chiefdom",
+//     level: 3,
+//     favorite: false,
+//     id: "tTUf91fCytl",
+//     attributeValues: [],
+//   },
+//   {
+//     name: "Facility",
+//     created: "2011-12-24T12:24:22.935",
+//     lastUpdated: "2015-08-09T12:58:05.005",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "Facility",
+//     level: 4,
+//     favorite: false,
+//     id: "m9lBJogzE95",
+//     attributeValues: [],
+//   },
+//   {
+//     name: "Level 5",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "Level 5",
+//     level: 5,
+//     favorite: false,
+//     attributeValues: [],
+//   },
+//   {
+//     name: "Level 6",
+//     translations: [],
+//     externalAccess: false,
+//     userGroupAccesses: [],
+//     userAccesses: [],
+//     favorites: [],
+//     displayName: "Level 6",
+//     level: 6,
+//     favorite: false,
+//     attributeValues: [],
+//   },
+// ];
 
 if (typeof window !== "undefined") {
   injectStyle();
@@ -159,7 +190,9 @@ const Home = (props) => {
   const [isRowSelected, setIsRowSelected] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState("");
   const [selectedRequestIds, setSelectedRequestIds] = useState([]);
-
+  const [organizationUnits, setOrganizationUnits] = useState([]);
+  const [userStore, setUserStore] = useState({});
+  const [boundaries, setBoundaries] = useState([]);
   const openModal = (e) => {
     setModalIsOpen(true);
     setSelectedRequestId(e.target.id);
@@ -198,6 +231,31 @@ const Home = (props) => {
     setStatusList(filteredStatusList);
   };
 
+  const fetchResultsIn = (id) => {
+  console.log("in")
+    console.log(id)
+    const body = JSON.stringify({
+      request_id: id,
+    });
+
+    fetchResultService(body)
+        .then((response) => {
+          if (response.status === "success") {
+
+            const dataValues = response.result.dataValues;
+            console.log(dataValues);
+            const resp = async () => {
+              await  mutate( {val: dataValues})
+            }
+            // console.log(res)
+            resp().then(r => {})
+          }
+        })
+        .catch((error) => {
+          console.log("error is ", error);
+        });
+  };
+
   const handleRowSelection = useCallback((selectedFlatRows) => {
     if (Object.keys(selectedFlatRows).length > 0) {
       var tmpIds = [];
@@ -220,7 +278,8 @@ const Home = (props) => {
     popLocalStorageRequestId(selectedRequestIds);
     setIsRowSelected(false);
     setSelectedRequestId("");
-    toast.success("Deleted selected row(s) successfully!");
+    show({msg:"successfully Deleted the selected row(s)!"});
+    // toast.success("Deleted selected row(s) successfully!");
   };
 
   const getStatusMessages = useCallback(() => {
@@ -238,8 +297,10 @@ const Home = (props) => {
                 sl.request_id === statusMsg.request_id &&
                 sl.status !== "success"
               ) {
+                fetchResultsIn(statusMsg.request_id);
+                show({msg:statusMsg.request_id + " is successful"});
                 //using simple logic to display successful toast message
-                toast.success(statusMsg.request_id + " is successful");
+                // toast.success(statusMsg.request_id + " is successful");
               }
             });
 
@@ -283,46 +344,96 @@ const Home = (props) => {
     const interval = setInterval(() => {
       console.log("calling get_status api");
       getStatusMessages();
-    }, 5000); //run every 5 sec until status is set to waiting!
+    }, 7000); //run every 7 sec until status is set to waiting!
     return () => clearInterval(interval);
   }, [requestStatus, getStatusMessages]);
 
-  const requestFormSubmitHandler = (data) => {
+  const requestFormSubmitHandler = async (data) => {
     setIsCreatingRequest(true);
 
     console.log("request data is :", data);
 
-    if (data.org_unit !== "District") {
-      console.log("currently overriding org_unit selection with District data");
       organizationUnits.map((orgUnit) => {
-        if (orgUnit.name === "District") {
-          data.org_unit = orgUnit.name;
-          data.level = orgUnit.level;
-        }
-      });
+      if (orgUnit.name === data.org_unit) {
+        console.log( data.org_unit + " " + orgUnit.level);
+        data.level = orgUnit.level;
+      }
+    });
+
+
+    // if (data.org_unit !== "District") {
+    //   console.log("currently overriding org_unit selection with District data");
+    //   organizationUnits.map((orgUnit) => {
+    //     if (orgUnit.name === "District") {
+    //       data.org_unit = orgUnit.name;
+    //       data.level = orgUnit.level;
+    //     }
+    //   });
+    // }
+
+   await refetch({
+      orgLevel: data.level
+    }).then(r=>{
+      console.log(r.result.organisationUnits)
+      // setBoundaries(prevState => r.result.organisationUnits)
+     const payload = PrepareCloudWorkflowPayload(
+         data.dataset,
+         data.org_unit,
+         r.result.organisationUnits,
+         data.start_date,
+         data.end_date,
+         userStore
+     );
+     console.log("payload is : ", payload);
+     startCloudWorkflowService(JSON.stringify(payload))
+         .finally(() => setIsCreatingRequest(false))
+         .then((data) => {
+           const newRequestId = data.request_id;
+           const requestIds = getLocalStorageRequestIds();
+           saveRequestIdListToLocalStorage([newRequestId, ...requestIds]);
+           setRequestStatus(getStatusMessages());
+         })
+         .catch((err) => {
+           setHasError(true);
+           console.log("error occured while requesting cloud workflow ", err);
+         });
+    })
+
+
+
+  };
+
+  const [mutate, { loadings }] = useDataMutation(mutation, {
+    onComplete: response => {
+      console.log(JSON.stringify(response))
+      const add = response;
+      show({msg:add.status +': '+ add.description+
+          '. Imported: ' + add.importCount.imported + ' Updated: ' + add.importCount.updated + ' Ignored: ' + add.importCount.ignored + ' Deleted: ' + add.importCount.deleted})
+
+    },
+    onError: error => {console.log(JSON.stringify(error))}
+  })
+  const { show } = useAlert(({msg})=>msg);
+
+  fetchOrgLevel().then(r=>{
+    if(r){
+      // console.log(r.result)
+      setOrganizationUnits(prevState => r.result)
     }
 
-    const payload = PrepareCloudWorkflowPayload(
-      data.dataset,
-      data.org_unit,
-      data.level,
-      data.start_date,
-      data.end_date
-    );
-    console.log("payload is : ", payload);
-    startCloudWorkflowService(JSON.stringify(payload))
-      .finally(() => setIsCreatingRequest(false))
-      .then((data) => {
-        const newRequestId = data.request_id;
-        const requestIds = getLocalStorageRequestIds();
-        saveRequestIdListToLocalStorage([newRequestId, ...requestIds]);
-        setRequestStatus(getStatusMessages());
-      })
-      .catch((err) => {
-        setHasError(true);
-        console.log("error occured while requesting cloud workflow ", err);
-      });
-  };
+  })
+
+  fetchDataElements().then(r=>{
+    if(r) {
+      // console.log(r.result.value)
+      setUserStore(prevState => r.result.value)
+    }
+  })
+  const {refetch} = useDataQuery(levQuery, {
+
+  });
+
+
 
   return (
     <div>
@@ -349,6 +460,7 @@ const Home = (props) => {
           <div className="clear_button_container">
             <SecondaryButton
               id={selectedRequestId}
+              Class="button_secondary_del"
               btnText="Clear"
               btnLink={handleClearRowSelection}
               disable={!isRowSelected}

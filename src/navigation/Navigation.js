@@ -33,12 +33,6 @@ export const Navigation = () => (
         />
 
         <NavigationItem
-            // Menu item for the meta data page
-            label="Status"
-            path="/status"
-        />
-
-        <NavigationItem
             // Menu item for the FAQ page
             label="Settings"
             path="/settings"

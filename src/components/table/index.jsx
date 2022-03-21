@@ -114,9 +114,11 @@ const Table = ({ columns, data, onSelect, selectedRows }) => {
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             Prev
           </button>
+          &nbsp;
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             Next
           </button>
+          &nbsp;
           <div>
             Page{" "}
             <em>
