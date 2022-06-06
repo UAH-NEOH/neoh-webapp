@@ -82,11 +82,6 @@ const columns = [
 
 const initialRequestIdList = [
   // "1HRUq2kEQQ",
-  // "bjAwLPMPwd",
-  // "dk00foKRqP",
-  // "DB27ynegt9",
-  // "NSYq1WYfKM",
-  // "FAMB8rfpne",
 ];
 
 // const organizationUnits = [
@@ -232,7 +227,6 @@ const Home = (props) => {
   };
 
   const fetchResultsIn = (id) => {
-  console.log("in")
     console.log(id)
     const body = JSON.stringify({
       request_id: id,
@@ -360,16 +354,6 @@ const Home = (props) => {
       }
     });
 
-
-    // if (data.org_unit !== "District") {
-    //   console.log("currently overriding org_unit selection with District data");
-    //   organizationUnits.map((orgUnit) => {
-    //     if (orgUnit.name === "District") {
-    //       data.org_unit = orgUnit.name;
-    //       data.level = orgUnit.level;
-    //     }
-    //   });
-    // }
 
    await refetch({
       orgLevel: data.level

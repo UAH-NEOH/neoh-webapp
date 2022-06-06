@@ -3,9 +3,7 @@ import { Card } from '@dhis2/ui'
 import styles from "./Form.module.css";
 import {useDataMutation, useDataQuery, useAlert} from '@dhis2/app-runtime'
 import { InputField, Button  } from '@dhis2/ui'
-import {getData} from "./allQueryExec";
-import {fetchDataElements} from "./allQueryExec";
-import {SecondaryButton} from "../components";
+
 
 const readUserDataStore = {
     result: {
