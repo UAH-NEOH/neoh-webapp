@@ -39,14 +39,15 @@ const createPrecipDataElement = {
     type: 'create',
     resource: 'dataElements',
     data:  ({
-        aggregationType:"SUM",
+        aggregationType:"AVERAGE",
         domainType:"AGGREGATE",
         valueType:"NUMBER",
         name:"NEOH-Precipitation",
         shortName:"NEOH-precip",
         categoryCombo:{id:"bjDvmb4bfuf"},
         legendSets:[],
-        aggregationLevels:[3,2,4,1]
+        aggregationLevels:[3,2,4,1],
+        zeroIsSignificant: true
     }),
 }
 
@@ -54,28 +55,30 @@ const createTempDataElement = {
     type: 'create',
     resource: 'dataElements',
     data:  ({
-        aggregationType:"SUM",
+        aggregationType:"AVERAGE",
         domainType:"AGGREGATE",
         valueType:"NUMBER",
         name:"NEOH-Temperature",
         shortName:"NEOH-temp",
         categoryCombo:{id:"bjDvmb4bfuf"},
         legendSets:[],
-        aggregationLevels:[3,2,4,1]
+        aggregationLevels:[3,2,4,1],
+        zeroIsSignificant: true
     }),
 }
 const createVegDataElement = {
     type: 'create',
     resource: 'dataElements',
     data:  ({
-        aggregationType:"SUM",
+        aggregationType:"AVERAGE",
         domainType:"AGGREGATE",
         valueType:"NUMBER",
         name:"NEOH-Vegetation",
         shortName:"NEOH-veg",
         categoryCombo:{id:"bjDvmb4bfuf"},
         legendSets:[],
-        aggregationLevels:[3,2,4,1]
+        aggregationLevels:[3,2,4,1],
+        zeroIsSignificant: true
     }),
 }
 
