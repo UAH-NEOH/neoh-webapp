@@ -103,9 +103,9 @@ export const Settings = () => {
 
         onComplete:  response => {
             // console.log(response['response']['uid']);
-             setPrecipitationDataElementId((prev) => response.response.uid)
-             setDhis_dist_version((prev) => 'sierra_leone_1');
-             show({msg:'Created Data Element - NEOH-Precipitation'})
+            setPrecipitationDataElementId((prev) => response.response.uid)
+            setDhis_dist_version((prev) => 'sierra_leone_1');
+            show({msg:'Created Data Element - NEOH-Precipitation'})
         },
         onError: error => {
             console.log(JSON.stringify(error))
@@ -155,7 +155,7 @@ export const Settings = () => {
             }
         },
         onComplete: respone => {console.log(JSON.stringify(respone))
-        console.log('4')
+            console.log('4')
         },
         onError: error => {console.log(JSON.stringify(error))}
     })
@@ -179,11 +179,11 @@ export const Settings = () => {
     }
     const updateUserDataStoreButton = async () => {
         await update({
-                value:{
-            precipitationDataElementId: precipitationDataElementIds,
-            temperatureDataElementId: temperatureDataElementId,
-            vegetationDataElementId: vegetationDataElementId,
-            dhis_dist_version: dhis_dist_version
+            value:{
+                precipitationDataElementId: precipitationDataElementIds,
+                temperatureDataElementId: temperatureDataElementId,
+                vegetationDataElementId: vegetationDataElementId,
+                dhis_dist_version: dhis_dist_version
             }
         })
 
@@ -202,9 +202,9 @@ export const Settings = () => {
     }
 
     const createDataElements = async () => {
-         createPrecip();
-         createTemp();
-         createVeg();
+        createPrecip();
+        createTemp();
+        createVeg();
         getDataElementID()
         handledhis2distData()
         createDatastoreVariables();
@@ -218,28 +218,28 @@ export const Settings = () => {
             if(r){
                 // console.log(r.result.dataElements)
                 let tmparray = r.result.dataElements;
-                  tmparray.map((orgUnit) => {
-                      if(orgUnit.displayName==="NEOH-Precipitation") {
-                          console.log('2');
-                          // console.log(orgUnit.id);
-                          setPrecipitationDataElementId((prev) =>orgUnit.id);
+                tmparray.map((orgUnit) => {
+                    if(orgUnit.displayName==="NEOH-Precipitation") {
+                        console.log('2');
+                        // console.log(orgUnit.id);
+                        setPrecipitationDataElementId((prev) =>orgUnit.id);
 
 
-                      }
-                      if(orgUnit.displayName==="NEOH-Vegetation") {
-                          // console.log('v');
-                          // console.log(orgUnit.id);
+                    }
+                    if(orgUnit.displayName==="NEOH-Vegetation") {
+                        // console.log('v');
+                        // console.log(orgUnit.id);
 
-                          setVegetationDataElementId((prev) =>orgUnit.id);
-                      }
-                      if(orgUnit.displayName==="NEOH-Temperature") {
-                          // console.log('t');
-                          // console.log(orgUnit.id);
-                          setTemperatureDataElementId((prev) =>orgUnit.id);
-                      }
+                        setVegetationDataElementId((prev) =>orgUnit.id);
+                    }
+                    if(orgUnit.displayName==="NEOH-Temperature") {
+                        // console.log('t');
+                        // console.log(orgUnit.id);
+                        setTemperatureDataElementId((prev) =>orgUnit.id);
+                    }
 
-                      // console.log(orgUnit.id);
-                  });
+                    // console.log(orgUnit.id);
+                });
                 if(tmparray.length===0) {
                     // console.log('No Data to show');
                     // console.log(orgUnit.id);
@@ -272,33 +272,42 @@ export const Settings = () => {
     const { show } = useAlert(({msg})=>msg)
 
     return(
-        <>
-    <div style={{display: "flex", justifyContent: "center", alignContent: "center"}}>
+        <div className={styles.settings_row}>
+            <div className={styles.col1}>
+                <div className="form-style-5 padding-style">
+                    <div className="form_container">
+                        <div className={styles.headerText}> Data Element ID Information </div>
+                        <div className="form">
+                            <div className={styles.formTemplate}>
 
+                                <label htmlFor="precip" className={styles.labelClass}>Precipitation Data Element ID</label>
+                                <InputField type="text" value={precipitationDataElementIds} onChange={ ({value}) => setPrecipitationDataElementId(value)} />
 
+                                <label htmlFor="temp" className={styles.labelClass}>Temperature Data Element ID</label>
+                                <InputField type="text" value={temperatureDataElementId} onChange={({value}) => setTemperatureDataElementId(value)} />
 
-            <Card className={styles.cardLaySettings} dataTest="dhis2-uicore-card">
+                                <label htmlFor="veg" className={styles.labelClass}>Vegetation Data Element ID</label>
+                                <InputField type="text"  value={vegetationDataElementId} onChange={({value}) => setVegetationDataElementId(value)} />
 
-                <InputField type="text" label="Precipitation Data Element ID" name="precip" value={precipitationDataElementIds} onChange={ ({value}) => setPrecipitationDataElementId(value)} />
+                                <label htmlFor="version" className={styles.labelClass}>DHIS2 district & Version</label>
+                                <InputField type="text"  value={dhis_dist_version} onChange={({value}) => setDhis_dist_version(value)} />
 
-                <InputField type="text" label="Temperature Data Element ID" name="temp" value={temperatureDataElementId} onChange={({value}) => setTemperatureDataElementId(value)} />
-                <InputField type="text" label="Vegetation Data Element ID" name="veg" value={vegetationDataElementId} onChange={({value}) => setVegetationDataElementId(value)} />
-                <InputField type="text" label="DHIS2 district & Version" name="version" value={dhis_dist_version} onChange={({value}) => setDhis_dist_version(value)} />
+                                <br/>
+                            </div>
+                        </div>
+                                <div className={styles.button_settings}>
+                                    <Button className={styles.button_secondary} onClick={createDataElements}>Generate</Button>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <Button className={styles.button_secondary} onClick={checkUserStore} >Store</Button>
+                                    &nbsp; &nbsp; &nbsp;
+                                    {/*<Button onClick={removeUserDataStoreButton}  destructive>Remove</Button>*/}
+                                    {/*&nbsp; &nbsp; &nbsp;*/}
+                                    <Button className={styles.button_secondary} onClick={showBox} >Show</Button>
+                                </div>
+                    </div>
 
-                <br/>
-                <div className={styles.button}>
-                <Button onClick={createDataElements} primary>Generate</Button>
-                &nbsp; &nbsp; &nbsp;
-                <Button onClick={checkUserStore}  primary>Store</Button>
-                &nbsp; &nbsp; &nbsp;
-                {/*<Button onClick={removeUserDataStoreButton}  destructive>Remove</Button>*/}
-                {/*&nbsp; &nbsp; &nbsp;*/}
-                <Button onClick={showBox}  primary>Show</Button>
-                </div>
-
-            </Card>
-
-    </div>
-        </>
-)}
+            </div>
+        </div>
+        </div>
+    )}
 

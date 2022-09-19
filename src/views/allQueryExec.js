@@ -14,6 +14,7 @@ const readUserDataStore = {
         resource: 'userDataStore/NEOH-dhis2/currentUserData'
     }
 }
+
 export const fetchOrgLevel = async  () => {
     const {loading, error, data, refetch} = await useDataQuery(orgQuery)
 

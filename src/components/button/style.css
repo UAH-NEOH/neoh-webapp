@@ -1,5 +1,5 @@
 .button_primary {
-  background-color: mediumblue;
+  background-color: rgb(44, 102, 147);
   border: none;
   border-radius: 8px;
   color: white;
@@ -12,6 +12,6 @@
 }
 
 .button_primary:hover {
-  background-color: blue;
+  background-color: #30758d;
   color: white;
 }

@@ -5,7 +5,7 @@ const SecondaryButton = (props) => {
   return (
     <>
       {disable && (
-        <button className="${Class}_disabled" id={id} disabled>
+        <button className="button_secondary_disabled" id={id} disabled>
           {btnText}
         </button>
       )}

@@ -6,7 +6,7 @@
 
 .form_container {
   display: flex;
-  width: 600px;
+  /*width: 600px;*/
   margin: 5px auto;
   padding: 25px;
   background: white;
@@ -19,12 +19,13 @@
 }
 
 .form {
-  display: flex;
+  font-family: "Open Sans Condensed", arial, sans;
+  /*display: flex;
   flex-direction: row;
   justify-content: center;
-  font-family: "Open Sans Condensed", arial, sans;
+
   padding: 3px auto;
-  margin: 3px auto;
+  /*margin: 3px auto;*/
 }
 
 .form input[type="date"],
@@ -35,7 +36,7 @@
   outline: none;
   display: block;
   width: 100%;
-  padding: 7px;
+  padding: 10px;
   border: none;
   border-bottom: 1px solid #ddd;
   background: transparent;
@@ -44,7 +45,18 @@
   height: 30px auto;
 }
 
+.form input[type="number"]{
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
 .errormsg {
   text-align: center;
   color: red;
+}
+
+.loader_position{
+  text-align: center;
+  padding-top: 5px;
 }

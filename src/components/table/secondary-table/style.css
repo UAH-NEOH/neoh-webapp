@@ -37,4 +37,18 @@
   table tr:nth-child(odd) {
     background-color: #fff;
   }
-  
+
+  .secButton{
+    height: 36px;
+    padding: 0px 12px;
+    background: rgb(44, 102, 147);
+    color: white;
+    border-color: white;
+    cursor: pointer;
+  }
+
+  .secButtonDisabled{
+    height: 36px;
+    padding: 0px 12px;
+    border-color: white;
+  }

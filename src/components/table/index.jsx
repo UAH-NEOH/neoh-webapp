@@ -39,7 +39,7 @@ const Table = ({ columns, data, onSelect, selectedRows }) => {
       columns,
       data,
       initialState: {
-        pageSize: 10,
+        pageSize: 8,
         pageIndex: 0,
         selectedRowIds: selectedRows,
       },
@@ -111,11 +111,11 @@ const Table = ({ columns, data, onSelect, selectedRows }) => {
       </div>
       <div className="table_container">
         <div>
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <button className={canPreviousPage?"secButton":"secButtonDisabled"} onClick={() => previousPage()} disabled={!canPreviousPage}>
             Prev
           </button>
           &nbsp;
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
+          <button className={canNextPage?"secButton":"secButtonDisabled"} onClick={() => nextPage()} disabled={!canNextPage}>
             Next
           </button>
           &nbsp;
@@ -135,15 +135,15 @@ const Table = ({ columns, data, onSelect, selectedRows }) => {
               setPageSize(Number(e.target.value));
             }}
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="24">24</option>
+            <option value="32">32</option>
           </select>
         </div>
       </div>
       <div className="table_container">
-        <code>{Object.keys(selectedRowIds).length} rows selected </code>
+        <code>{Object.keys(selectedRowIds).length} row(s) selected for deletion </code>
       </div>
     </>
   );

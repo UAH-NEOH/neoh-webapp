@@ -20,7 +20,7 @@ const SecondaryTable = ({ columns, data }) => {
       {
         columns,
         data,
-        initialState: { pageSize: 10, pageIndex: 0 },
+        initialState: { pageSize: 15, pageIndex: 0 },
       },
       usePagination
     );
@@ -58,17 +58,17 @@ const SecondaryTable = ({ columns, data }) => {
         </div>
         <div className="table_container">
           <div>
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            <button className={canPreviousPage?"secButton":"secButtonDisabled"} onClick={() => previousPage()} disabled={!canPreviousPage}>
               Prev
             </button>
               &nbsp;
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
+            <button className={canNextPage?"secButton":"secButtonDisabled"} onClick={() => nextPage()} disabled={!canNextPage}>
               Next
             </button>
               &nbsp;
             <div>
               Page{" "}
-             <br/> <em>
+              <em>
                 {pageIndex + 1} of {pageOptions.length}
               </em>
             </div>
@@ -82,10 +82,10 @@ const SecondaryTable = ({ columns, data }) => {
                 setPageSize(Number(e.target.value));
               }}
             >
-              <option value="5">5</option>
-              <option value="10">10</option>
               <option value="15">15</option>
-              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+              <option value="60">60</option>
             </select>
           </div>
         </div>
