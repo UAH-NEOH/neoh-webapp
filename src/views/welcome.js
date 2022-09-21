@@ -102,12 +102,11 @@ export const Welcome2 = () => {
                             <div className={styles.formTemplate}>
                                 Welcome to the Earth observations data import wizard application
                                 <br/>
-                                The application will allow you import Earth observational data such as precipitation, surface temperature, and vegetation health into DHIS2.
-                                <br/>
+                                The application will allow you to import Earth observational data such as precipitation, surface temperature, and vegetation health into DHIS2.                                <br/>
                                 To import Earth Observations:
                                 <br/>
                                 <ul className="welcome">
-                                    <li>Click Import Earth Observations.</li>
+                                    <li>Click Import Earth Observations Tab.</li>
                                     <li>Select the Earth observation you would like to import. You can choose between precipitation, surface temperature, and vegetation health.
                                     </li>
                                     <li>Next select the organizational unit to aggregate the data within those boundaries.</li>
@@ -119,8 +118,7 @@ export const Welcome2 = () => {
 
                                 <div className={styles.textHeader}> Info </div>
 
-                                If the data elements for precipitation, temperature, and vegetation health has not been configured. Contact your system administrator. If you are an
-                                administrator select settings from the top menu to get started.                                <div className={styles.imageAlign}>
+                                Suppose the data elements for precipitation, temperature, and vegetation health have not been configured. Contact your system administrator. If you are an administrator, select settings from the top menu to get started.                                <div className={styles.imageAlign}>
 
                                 </div>
                                 <br/>
