@@ -623,13 +623,13 @@ const DataLoad = () => {
                 <div className={styles.col1}>
                     <div className="form-style-5 padding-style">
                         <div className="form_container">
-                            <div className={styles.headerText}> Data Viewer </div>
+                            <div className={styles.headerText}>  Imported Data </div>
                             <div className={styles.headerText2}> * Data Refreshed Periodically </div>
                             <div className="form">
                                 <div className={styles.formTemplate}>
-                                    <label htmlFor="dataset" className={styles.labelClass}>Dataset</label>
+                                    <label htmlFor="dataset" className={styles.labelClass}>Earth Observation Datasets</label>
                                     <select id="dataset" name="dataset" onChange={handleDatasetSelection}>
-                                        <option value="" selected="true" disabled="disabled">Select Dataset</option>
+                                        <option value="" selected="true" disabled="disabled">Select Earth Observation Dataset</option>
                                         <option value="precipitation">Precipitation</option>
                                         <option value="temperature">Temperature</option>
                                         <option value="vegetation">Vegetation</option>
@@ -637,7 +637,7 @@ const DataLoad = () => {
 
                                     <label htmlFor="org_unit"  className={styles.labelClass}>Organizational Unit Levels</label>
                                     <select id="org_unit" name="org_unit" onChange={handleOrgUnitSelection}>
-                                        <option value="" selected="true" disabled="disabled">Select Organizational Unit</option>
+                                        <option value="" selected="true" disabled="disabled">Select Organizational Unit Level</option>
                                         {orgUnits.map((orgUnit) => {
                                             return (
                                                 <option id="org_unit" value={orgUnit.level}>

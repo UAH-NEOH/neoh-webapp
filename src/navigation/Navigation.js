@@ -40,7 +40,7 @@ export const Navigation = () => (
 
         <NavigationItem
             // Menu item for the data load
-            label="Data Viewer"
+            label="Imported Data"
             path="/dataload">
         </NavigationItem>
 

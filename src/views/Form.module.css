@@ -178,3 +178,22 @@ input:focus {
 .textHeader{
     font-weight: bold;
 }
+
+.headerTextLeft{
+    font-weight: bold;
+    text-align: left;
+}
+
+.headerText3{
+    font-size: 13px;
+    font-weight: normal;
+    color: red;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.headerText4{
+    font-weight: normal;
+    color: red;
+    font-size: 18px;
+}

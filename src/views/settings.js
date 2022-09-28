@@ -276,7 +276,7 @@ export const Settings = () => {
             <div className={styles.col1}>
                 <div className="form-style-5 padding-style">
                     <div className="form_container">
-                        <div className={styles.headerText}> Data Element ID Information </div>
+                        <div className={styles.headerText}> Data Element IDs Information </div>
                         <div className="form">
                             <div className={styles.formTemplate}>
 

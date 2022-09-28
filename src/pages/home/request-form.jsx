@@ -70,22 +70,21 @@ const RequestForm = (props) => {
     return (
 
         <div className="form_container">
-            <div className={styles.headerText}> Import Earth Observation </div>
+            <div className={styles.headerText}> Import Earth Observations </div>
             <div className="form">
                 <div className={styles.formTemplate}>
                     <label htmlFor="dataset" className={styles.labelClass}>Earth Observation Datasets</label>
                     <select id="dataset" name="dataset" onChange={handleDatasetSelection}>
-                        <option value="" selected="true" disabled="disabled">Select Dataset</option>
+                        <option value="" selected="true" disabled="disabled">Select Earth Observation Dataset</option>
                         <option value="precipitation">Precipitation</option>
                         <option value="temperature">Temperature</option>
                         <option value="vegetation">Vegetation</option>
                     </select>
 
 
-
-                        <label htmlFor="org_unit" className={styles.labelClass}>Organizational Unit Levels</label>
+                        <label htmlFor="org_unit" className={styles.labelClass}>Organizational Unit Levels <span className={styles.headerText4}>*</span> </label>
                         <select id="org_unit" name="org_unit" onChange={handleOrgUnitSelection}>
-                            <option value="" selected="true" disabled="disabled">Select Organizational Unit</option>
+                            <option value="" selected="true" disabled="disabled">Select Organizational Unit Level</option>
                             {props.organizationUnits.map((orgUnit) => {
                                 return (
                                     <option id="org_unit" value={orgUnit.name}>
@@ -123,6 +122,9 @@ const RequestForm = (props) => {
                 btnLink={handleFormSubmission}
                 disable={props.disabled}
             />
+            <br/>
+            <div className={styles.headerText3}> *Disclaimer: Selecting an organizational unit level containing a large number of polygons may significantly increase processing time.
+            </div>
         </div>
 
     );
