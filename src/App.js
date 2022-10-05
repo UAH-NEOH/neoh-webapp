@@ -1,10 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import  { About, Settings, NoMatch, Welcome2}  from './views'
+import  { About, Settings, NoMatch, Welcome2}  from './pages/views'
 import { Navigation } from './navigation'
 import styles from './App.module.css'
 import {Home} from "./pages";
-import DataLoad from "./views/DataLoad";
+import DataLoad from "./pages/views/dataLoad";
 
 
 const MyApp = () => (<BrowserRouter>

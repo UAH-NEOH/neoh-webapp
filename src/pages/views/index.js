@@ -2,5 +2,5 @@ export * from './settings'
 export * from './NoMatch'
 export * from './about'
 export * from './welcome'
-export * from '../pages/home/index'
+export * from '../home'
 

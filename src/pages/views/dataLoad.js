@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDataQuery } from '@dhis2/app-runtime'
-import SecondaryTable from "../components/table/secondary-table";
-import {Loader, SecondaryButton} from "../components";
+import SecondaryTable from "../../components/table/secondary-table";
+import {Loader, SecondaryButton} from "../../components";
 import styles from "./Form.module.css";
-import {fetchOrgLevel} from "../views/allQueryExec";
+import {fetchOrgLevel} from "./allQueryExec";
 import bootstrap from "./bootstrap.css"
 
 const myQuery = {

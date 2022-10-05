@@ -1,6 +1,6 @@
 import { SecondaryButton } from "../../components/index";
 import React, { useState } from "react";
-import styles from "../../views/Form.module.css";
+import styles from "../views/Form.module.css";
 
 const RequestForm = (props) => {
     const [selectedDataset, setSelectedDataset] = useState("");

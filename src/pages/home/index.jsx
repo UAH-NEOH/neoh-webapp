@@ -13,8 +13,8 @@ import { Results } from "../../pages";
 import Modal from "react-modal";
 import "./style.css";
 import {useAlert, useDataMutation, useDataQuery} from "@dhis2/app-runtime";
-import {fetchOrgLevel, fetchDataElements} from "../../views/allQueryExec";
-import styles from "../../views/Form.module.css";
+import {fetchOrgLevel, fetchDataElements} from "../views/allQueryExec";
+import styles from "../views/Form.module.css";
 
 const customStyles = {
     content: {
