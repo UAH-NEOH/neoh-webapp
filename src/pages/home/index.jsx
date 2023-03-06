@@ -236,8 +236,11 @@ const Home = (props) => {
 
         fetchResultService(body)
             .then((response) => {
-                if (response.status === "success") {
-                    const dataValues = response.result.dataValues;
+                
+                if (!!response) {
+                   
+                    const dataValues = response.dataValues;
+                    console.log("Result:");
                     console.log(dataValues);
                     let obj  = {"request_id": id, "dataValues":dataValues};
                     // 1 . 1 - 30  2020 Jan imported (button)

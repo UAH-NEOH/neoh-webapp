@@ -39,9 +39,11 @@ const Results = (props) => {
     fetchResultService(body)
       .finally(() => setIsLoading(false))
       .then((response) => {
-        if (response.status === "success") {
+        if (!!response) {
           setIsSuccess(true);
-          const dataValues = response.result.dataValues;
+          // console.log('Results here')
+          // console.log(response);
+          const dataValues = response.dataValues;
           setResultsList(dataValues);
         } else if (response.status === "waiting") {
           setIsSuccess(false);

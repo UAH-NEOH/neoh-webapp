@@ -3,9 +3,9 @@ import config from "../config";
 const API_BASE_URL = config.apiBaseUrl;
 const CLOUD_WORKFLOW_URL = config.cloudWorkflowBaseUrl;
 
-const RESOURCE_GET_STATUS = "get_status";
-const RESOURCE_GET_RESULT = "get_result";
-const RESOURCE_START_CLOUD_WORKFLOW = "start_cloud_workflow";
+const RESOURCE_GET_STATUS = "get-status";
+const RESOURCE_GET_RESULT = "get-result";
+const RESOURCE_START_CLOUD_WORKFLOW = "start-process";
 
 const post = (resourceName, data) => {
   const requestOptions = {

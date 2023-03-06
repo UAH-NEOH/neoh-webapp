@@ -1,7 +1,7 @@
 const config = {
-  apiBaseUrl: "https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default/",
+  apiBaseUrl: "http://localhost:80",
   cloudWorkflowBaseUrl:
-    "https://9t06h5m4bf.execute-api.us-east-1.amazonaws.com/default",
+    "http://localhost:80",
 };
 
 export default config;

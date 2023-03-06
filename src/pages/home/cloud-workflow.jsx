@@ -23,7 +23,7 @@ const PrepareCloudWorkflowPayload = (dataset, org_unit, boundaries, start_date, 
   };
 
   if (dataset === "precipitation") {
-    payload.product = "GPM_3IMERGDF_06";
+    payload.product = "GPM_3IMERGDF.06";
     payload.var_name = "precipitationCal";
     payload.x_start_stride_stop = "";
     payload.y_start_stride_stop = "";
