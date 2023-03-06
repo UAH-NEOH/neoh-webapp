@@ -1,4 +1,4 @@
-import { Menu, MenuItem } from '@dhis2/ui'
+import { Menu, MenuItem,TabBar, Tab } from '@dhis2/ui'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import { PropTypes } from '@dhis2/prop-types'
 import React from 'react'
@@ -16,7 +16,7 @@ const NavigationItem = ({ path, label }) => {
     // If the menu item is not active, navigate to the path
     const onClick = () => !isActive && history.push(path)
 
-    return <MenuItem label={label} active={isActive} onClick={onClick} />
+    return <Tab selected={isActive} onClick={onClick} >{label} </Tab>
 }
 
 NavigationItem.propTypes = {
@@ -25,23 +25,35 @@ NavigationItem.propTypes = {
 }
 
 export const Navigation = () => (
-    <Menu>
+    <TabBar>
         <NavigationItem
-            // Menu item for the home page
-            label="Data Ingest"
-            path="/"
-        />
+            //Welcome
+            label="Welcome"
+            path="/">
+        </NavigationItem>
 
         <NavigationItem
-            // Menu item for the meta data page
-            label="Status"
-            path="/status"
-        />
+            // Menu item for the home page
+            label="Import Earth Observations"
+            path="/home">
+        </NavigationItem>
+
+        <NavigationItem
+            // Menu item for the data load
+            label="Imported Data"
+            path="/dataload">
+        </NavigationItem>
 
         <NavigationItem
             // Menu item for the FAQ page
             label="Settings"
-            path="/settings"
-        />
-    </Menu>
+            path="/settings">
+        </NavigationItem>
+
+        <NavigationItem
+            // Menu item for the FAQ page
+            label="About"
+            path="/about">
+        </NavigationItem>
+    </TabBar>
 )

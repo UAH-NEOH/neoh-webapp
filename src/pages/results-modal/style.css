@@ -1,0 +1,8 @@
+.close_button_container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.downLoad{
+    padding-right : 10px;
+}
